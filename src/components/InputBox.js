@@ -75,46 +75,52 @@ class InputBox extends React.Component {
     super(props);
     this.state = {
       inputText: null,
-      languageID: null
+      languageID: null,
+      certainty: null
     };
     this.onChange = this.onChange.bind(this);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    let sourceText = encodeURI(this.state.inputText);
-    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=AIzaSyBZ-KF0lmBtrlhvn2jJT6SqXyeLubXlelQ&q=' + sourceText;
-    var that = this;
-      $.ajax ({
-        dataType: 'json',
-        url: source,
-        success: function(data){
-          var id = data.data.detections[0][0].language;
-          that.setState({ languageID: id })
-        }
-      });
-  }
-
-  onChange() { 
+  onChange() {
     let updatedText = $('.text-box')[0].value;
+    setTimeout(func, 700);
+    function func() {};
     if (updatedText == "" || updatedText == " " || updatedText == null) {
-      this.setState({ inputText: null })
+      this.setState({ inputText: null });
+      this.setState({ certainty: null });
     } else {
       this.setState({ inputText: updatedText });
     }
+    let sourceText = encodeURI(this.state.inputText);
+    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=KEYq=' + sourceText;
+    var that = this;
+        $.ajax ({
+        dataType: 'json',
+        url: source,
+        success: function(data){
+          var response = data.data.detections[0][0];
+          that.setState({ languageID: response.language });
+          that.setState({ certainty: response.confidence});
+        }
+      });
   }
 
   render() {
     var lID = this.state.languageID;
     var language = languageCodes[lID];
-    var sentence = "";
+    var certainty = this.state.certainty * 100;
+    var sentence;
 
     if (language) {
-      sentence = "This is ";
+      sentence = "We're about " + certainty + "% sure that this is " + language + ".";
+    } else if (lID === null) {
+      sentence = "";
     };
+
     return (
       <div>
         <textarea className="text-box" type="text" onChange={this.onChange}></textarea>
-        <h4>{sentence}<span className='color'>{language}</span></h4>
+        <h4>{sentence}</h4>
       </div>
     );
   }
