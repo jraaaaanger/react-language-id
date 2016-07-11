@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Translate API Example</title>
+  </head>
+  <body>
+    <div id="sourceText">Hello world</div>
+    <div id="translation"></div>
+    <script>
+      function translateText(response) {
+        document.getElementById("translation").innerHTML += "<br>" + response.data.translations[0].translatedText;
+      }
+    </script>
+    <script>
+      var newScript = document.createElement('script');
+      newScript.type = 'text/javascript';
+      var sourceText = escape(document.getElementById("sourceText").innerHTML);
+      var source = 'https://www.googleapis.com/language/translate/v2/detect?key=YOUR_API_KEY&q=' + sourceText;
+      newScript.src = source;
+
+      document.getElementsByTagName('head')[0].appendChild(newScript);
+    </script>
+  </body>
+</html>
+
+
+$.ajax ({
+  dataType: 'json',
+  url: source,
+  success: function(data){
+    useReturn(data.data.detections[0][0].language);
+  }
+});
+newTag = "";
+function useReturn(data) {
+  newTag = data;
+};
+
+
+function caller() {
+  console.log(this.response);
+};
+
+function ajax(URL, cbf) {
+  var c = new XMLHttpRequest;
+  c.open('GET', URL);
+  c.onload = cbf;
+  c.send()
+};
+
+
+success: function(data){
+  useReturn(data.data.detections[0][0].language);
+}
