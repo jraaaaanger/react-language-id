@@ -5,10 +5,13 @@ var languageCodes = {
   'af': 'Afrikaans',
   'am': 'Amharic',
   'hy': 'Armenian',
+  'bn': 'Bengali',
   'bg': 'Bulgarian',
   'ca': 'Catalan',
   'co': 'Corsican',
-  'zh': 'Chinese',
+  'zh-CN': 'Chinese',
+  'zh-TW': 'Chinese (Taiwan)',
+  'zh-HK': 'Chinese (Hong Kong)',
   'hr': 'Croatian',
   'cs': 'Czech',
   'da': 'Danish',
@@ -25,9 +28,11 @@ var languageCodes = {
   'el': 'Greek',
   'eo': 'Esperanto',
   'ga': 'Irish Gaelic',
+  'gl': 'Galician',
   'haw': 'Hawaiian',
   'hi': 'Hindi',
-  'hmn': "Hmong",
+  'hmn': 'Hmong',
+  'ht': 'Haitian Creole',
   'hu': 'Hungarian',
   'id': 'Indonesian',
   'ig': 'Igbo',
@@ -37,6 +42,7 @@ var languageCodes = {
   'ja': 'Japanese',
   'ka': 'Georgian',
   'ko': 'Korean',
+  'la': 'Latin',
   'lv': 'Latvian',
   'lt': 'Lithuanian',
   'mi': 'Maori',
@@ -59,6 +65,8 @@ var languageCodes = {
   'uk': 'Ukranian',
   'vi': 'Vietnamese',
   'cy': 'Welsh',
+  'xh': 'Xhosa',
+  'yi': 'Yiddish',
   'zu': 'Zulu'
 }
 
@@ -74,7 +82,7 @@ class InputBox extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     let sourceText = encodeURI(this.state.inputText);
-    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=&q=' + sourceText;
+    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=AIzaSyBZ-KF0lmBtrlhvn2jJT6SqXyeLubXlelQ&q=' + sourceText;
     var that = this;
       $.ajax ({
         dataType: 'json',
@@ -86,9 +94,9 @@ class InputBox extends React.Component {
       });
   }
 
-  onChange() {
+  onChange() { 
     let updatedText = $('.text-box')[0].value;
-    if (updatedText == "" || updatedText == " ") {
+    if (updatedText == "" || updatedText == " " || updatedText == null) {
       this.setState({ inputText: null })
     } else {
       this.setState({ inputText: updatedText });
