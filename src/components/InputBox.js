@@ -1,10 +1,13 @@
 import React from 'react';
 
+
 var languageCodes = {
   'af': 'Afrikaans',
   'am': 'Amharic',
+  'hy': 'Armenian',
   'bg': 'Bulgarian',
   'ca': 'Catalan',
+  'co': 'Corsican',
   'zh': 'Chinese',
   'hr': 'Croatian',
   'cs': 'Czech',
@@ -12,21 +15,33 @@ var languageCodes = {
   'nl': 'Dutch',
   'en': 'English',
   'et': 'Estonian',
+  'eu': 'Basque',
+  'fa': 'Farsi',
   'fil': 'Filipino',
   'fi': 'Finnish',
+  'fy': 'Frisian',
   'fr': 'French',
   'de': 'German',
   'el': 'Greek',
+  'eo': 'Esperanto',
+  'ga': 'Irish Gaelic',
+  'haw': 'Hawaiian',
   'hi': 'Hindi',
+  'hmn': "Hmong",
   'hu': 'Hungarian',
   'id': 'Indonesian',
+  'ig': 'Igbo',
   'in': 'Indonesian',
+  'is': 'Icelandic',
   'it': 'Italian',
   'ja': 'Japanese',
+  'ka': 'Georgian',
   'ko': 'Korean',
   'lv': 'Latvian',
   'lt': 'Lithuanian',
+  'mi': 'Maori',
   'ms': 'Malay',
+  'mt': 'Maltese',
   'no': 'Norwegian',
   'pl': 'Polish',
   'pt': 'Portuguese',
@@ -38,9 +53,12 @@ var languageCodes = {
   'es': 'Spanish',
   'sw': 'Swahili',
   'sv': 'Swedish',
+  'tg': 'Tajik',
   'th': 'Thai',
   'tr': 'Turkish',
   'uk': 'Ukranian',
+  'vi': 'Vietnamese',
+  'cy': 'Welsh',
   'zu': 'Zulu'
 }
 
@@ -56,7 +74,7 @@ class InputBox extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     let sourceText = encodeURI(this.state.inputText);
-    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=KEY&q=' + sourceText;
+    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=&q=' + sourceText;
     var that = this;
       $.ajax ({
         dataType: 'json',
@@ -70,7 +88,7 @@ class InputBox extends React.Component {
 
   onChange() {
     let updatedText = $('.text-box')[0].value;
-    if (updatedText == "") {
+    if (updatedText == "" || updatedText == " ") {
       this.setState({ inputText: null })
     } else {
       this.setState({ inputText: updatedText });
@@ -83,12 +101,12 @@ class InputBox extends React.Component {
     var sentence = "";
 
     if (language) {
-      sentence = "This is " + language;
+      sentence = "This is ";
     };
     return (
       <div>
-        <input className="text-box" type="text" onChange={this.onChange}></input>
-        <h4>{sentence}</h4>
+        <textarea className="text-box" type="text" onChange={this.onChange}></textarea>
+        <h4>{sentence}<span className='color'>{language}</span></h4>
       </div>
     );
   }
