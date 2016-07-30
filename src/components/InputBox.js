@@ -92,7 +92,7 @@ class InputBox extends React.Component {
       this.setState({ inputText: updatedText });
     }
     let sourceText = encodeURI(this.state.inputText);
-    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=KEYq=' + sourceText;
+    var source = 'https://www.googleapis.com/language/translate/v2/detect?key=KEY&q=' + sourceText;
     var that = this;
         $.ajax ({
         dataType: 'json',
